@@ -8,7 +8,7 @@
             "OutputPath": "$.Payload",
             "Parameters": {
             "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:728435501085:function:Z_calculateAmount:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:728435501085:function:calculateAmount:$LATEST"
         },
         "Retry": [
             {
@@ -25,13 +25,13 @@
         ],
             "Next": "invokeBilling3Party"
     },
-    "invokeBilling3Party": {
+    "connectBilling": {
         "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
             "OutputPath": "$.Payload",
             "Parameters": {
             "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:us-east-1:728435501085:function:z_invokeBilling3Party:$LATEST"
+                "FunctionName": "arn:aws:lambda:us-east-1:728435501085:function:connectBilling:$LATEST"
         },
         "Retry": [
             {
@@ -59,7 +59,7 @@
         "Type": "Parallel",
             "Branches": [
             {
-                "StartAt": "sendInvoice",
+                "StartAt": "sendMailInvoice",
                 "States": {
                     "sendInvoice": {
                         "Type": "Task",
@@ -67,7 +67,7 @@
                         "OutputPath": "$.Payload",
                         "Parameters": {
                             "Payload.$": "$",
-                            "FunctionName": "arn:aws:lambda:us-east-1:728435501085:function:z_sendInvoice:$LATEST"
+                            "FunctionName": "arn:aws:lambda:us-east-1:728435501085:function:sendMailInvoice:$LATEST"
                         },
                         "Retry": [
                             {
@@ -143,9 +143,9 @@
                 }
             },
             {
-                "StartAt": "sensSnsForShipment3party",
+                "StartAt": "sendSNSNotificationShipping",
                 "States": {
-                    "sensSnsForShipment3party": {
+                    "sendSNSNotificationShipping": {
                         "Type": "Task",
                         "Resource": "arn:aws:states:::lambda:invoke",
                         "OutputPath": "$.Payload",
