@@ -1,7 +1,7 @@
 
 ## simple basic code explorer
 
-### /lambdas
+### src/lambdas
 
 a directory for lambdas code
 
